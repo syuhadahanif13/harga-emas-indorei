@@ -64,7 +64,7 @@
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-y-3 mb-5">
             <div>
                 <h1 class="section-title text-4xl tracking-tighter">Harga Emas Hari Ini</h1>
-                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:34 WIB</p>
+                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:35 WIB</p>
             </div>
             
             <div class="flex items-center gap-x-3">
@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <!-- Spot Cards + Chart Side by Side -->
+        <!-- Spot Cards + Chart -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             <!-- Left: Spot Cards -->
@@ -261,7 +261,7 @@
                 chartInstance = null;
             }
 
-            chartInstance = new Chart(canvas, {
+            chartInstance = new Chart(canvas.getContext('2d'), {
                 type: 'line',
                 data: {
                     labels: ['08:00','10:00','12:00','14:00','16:00','18:00','20:00'],
@@ -309,7 +309,9 @@
             renderKursTables();
             
             // Initialize chart
-            setTimeout(initChart, 150);
+            setTimeout(() => {
+                initChart();
+            }, 200);
 
             initMobile();
 
