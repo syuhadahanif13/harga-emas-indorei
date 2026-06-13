@@ -18,6 +18,8 @@
         .nav-link:hover { color: #854D0E; }
         .gold-gradient { background: linear-gradient(135deg, #D4AF37, #B8972E); }
         .spot-header { background-color: #FEF3C7; }
+        .period-btn { transition: all 0.2s ease; }
+        .period-btn.active { background-color: #166534; color: white; border-color: #166534; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -64,7 +66,7 @@
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-y-3 mb-5">
             <div>
                 <h1 class="section-title text-4xl tracking-tighter">Harga Emas Hari Ini</h1>
-                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:35 WIB</p>
+                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:41 WIB</p>
             </div>
             
             <div class="flex items-center gap-x-3">
@@ -130,21 +132,26 @@
                 </div>
             </div>
 
-            <!-- Right: Chart -->
+            <!-- Right: Chart (Mirip Pluang) -->
             <div class="lg:col-span-7 bg-white border border-gray-100 rounded-3xl p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <div class="font-semibold text-lg">Grafik Harga Emas</div>
                         <div class="text-sm text-gray-500">per gram • Real-time</div>
                     </div>
-                    <div class="flex gap-x-2">
-                        <button onclick="updateChartPeriod(0)" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1D</button>
-                        <button onclick="updateChartPeriod(1)" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1W</button>
-                        <button onclick="updateChartPeriod(2)" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1M</button>
-                    </div>
                 </div>
 
-                <div class="h-[210px]">
+                <!-- Period Buttons -->
+                <div class="flex flex-wrap gap-2 mb-4" id="period-buttons">
+                    <button onclick="updateChartPeriod('1D')" class="period-btn px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl active">1D</button>
+                    <button onclick="updateChartPeriod('1W')" class="period-btn px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1W</button>
+                    <button onclick="updateChartPeriod('1M')" class="period-btn px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1M</button>
+                    <button onclick="updateChartPeriod('3M')" class="period-btn px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">3M</button>
+                    <button onclick="updateChartPeriod('1Y')" class="period-btn px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1Y</button>
+                    <button onclick="updateChartPeriod('5Y')" class="period-btn px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">5Y</button>
+                </div>
+
+                <div class="h-[220px]">
                     <canvas id="goldChart"></canvas>
                 </div>
             </div>
@@ -251,8 +258,37 @@
         function submitBuyForm(e){ e.preventDefault(); hideBuyModal(); alert('Pembelian berhasil (Demo)'); }
 
         let chartInstance = null;
+        let currentPeriod = '1D';
 
-        function initChart() {
+        // Data untuk berbagai periode
+        const chartData = {
+            '1D': {
+                labels: ['08:00','10:00','12:00','14:00','16:00','18:00','20:00'],
+                data: [2385000, 2391000, 2408000, 2412000, 2425000, 2438000, 2455416]
+            },
+            '1W': {
+                labels: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
+                data: [2412000, 2408000, 2425000, 2431000, 2442000, 2438000, 2455416]
+            },
+            '1M': {
+                labels: ['1 Jun','5 Jun','10 Jun','15 Jun','20 Jun','25 Jun','30 Jun'],
+                data: [2350000, 2375000, 2398000, 2412000, 2435000, 2448000, 2455416]
+            },
+            '3M': {
+                labels: ['Mar','Apr','Mei','Jun'],
+                data: [2280000, 2315000, 2390000, 2455416]
+            },
+            '1Y': {
+                labels: ['Jul','Oct','Jan','Apr','Jun'],
+                data: [2150000, 2280000, 2320000, 2395000, 2455416]
+            },
+            '5Y': {
+                labels: ['2022','2023','2024','2025','2026'],
+                data: [1850000, 2050000, 2250000, 2380000, 2455416]
+            }
+        };
+
+        function initChart(period = '1D') {
             const canvas = document.getElementById('goldChart');
             if (!canvas) return;
 
@@ -261,35 +297,66 @@
                 chartInstance = null;
             }
 
-            chartInstance = new Chart(canvas.getContext('2d'), {
+            const ctx = canvas.getContext('2d');
+            const data = chartData[period] || chartData['1D'];
+
+            chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['08:00','10:00','12:00','14:00','16:00','18:00','20:00'],
+                    labels: data.labels,
                     datasets: [{
                         label: 'Harga per Gram',
-                        data: [2385000, 2391000, 2408000, 2412000, 2425000, 2438000, 2455416],
-                        borderColor: '#D4AF37',
-                        backgroundColor: 'rgba(212,175,55,0.12)',
-                        borderWidth: 3,
+                        data: data.data,
+                        borderColor: '#16A34A',           // Hijau seperti Pluang
+                        backgroundColor: 'rgba(22, 163, 74, 0.08)',
+                        borderWidth: 2.5,
                         fill: true,
-                        tension: 0.4,
-                        pointRadius: 0
+                        tension: 0.35,
+                        pointRadius: 0,
+                        pointHoverRadius: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false }
+                    },
                     scales: {
-                        x: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-                        y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => (v/1000000).toFixed(1) + 'jt' } }
+                        x: {
+                            grid: { color: '#f1f5f9', lineWidth: 0.5 },
+                            ticks: { color: '#64748b', font: { size: 11 } }
+                        },
+                        y: {
+                            grid: { color: '#f1f5f9', lineWidth: 0.5 },
+                            ticks: { color: '#64748b', font: { size: 11 } }
+                        }
+                    },
+                    elements: {
+                        line: { tension: 0.4 },
+                        point: { hitRadius: 10 }
                     }
                 }
             });
         }
 
-        function updateChartPeriod() {
-            alert('Fitur akan dikembangkan lebih lanjut.');
+        function updateChartPeriod(period) {
+            currentPeriod = period;
+            
+            // Update active button
+            document.querySelectorAll('#period-buttons button').forEach(btn => {
+                btn.classList.remove('active', 'bg-emerald-800', 'text-white', 'border-emerald-800');
+                if (btn.textContent === period) {
+                    btn.classList.add('active', 'bg-emerald-800', 'text-white', 'border-emerald-800');
+                }
+            });
+
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null;
+            }
+            
+            initChart(period);
         }
 
         function initMobile() {
@@ -308,16 +375,16 @@
             renderTable('pegadaian-table-body', pegadaianPrices);
             renderKursTables();
             
-            // Initialize chart
+            // Inisialisasi chart
             setTimeout(() => {
-                initChart();
-            }, 200);
+                initChart('1D');
+            }, 150);
 
             initMobile();
 
-            if (document.querySelectorAll('.tab-btn').length > 0) {
-                document.querySelectorAll('.tab-btn')[0].classList.add('tab-active');
-            }
+            // Set tombol 1D sebagai active
+            const firstBtn = document.querySelector('#period-buttons button');
+            if (firstBtn) firstBtn.classList.add('active', 'bg-emerald-800', 'text-white', 'border-emerald-800');
         }
 
         window.onload = initialize;
