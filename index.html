@@ -9,21 +9,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap');
-        
         body { font-family: 'Inter', system_ui, sans-serif; }
         .font-display { font-family: 'Poppins', system_ui, sans-serif; }
-
         .section-title { font-size: 1.55rem; line-height: 1.15; font-weight: 700; letter-spacing: -0.03em; }
-
         .fresh-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .fresh-card:hover { transform: translateY(-4px); box-shadow: 0 15px 20px -5px rgb(0 0 0 / 0.08); }
-
         .nav-link { transition: color 0.2s ease; }
         .nav-link:hover { color: #854D0E; }
-
         .metric-value { font-variant-numeric: tabular-nums; }
         .gold-gradient { background: linear-gradient(135deg, #D4AF37, #B8972E); }
-
         .spot-card { min-height: 148px; }
     </style>
 </head>
@@ -66,7 +60,7 @@
         </div>
     </nav>
 
-    <!-- Hero - Fixed Overlap -->
+    <!-- Hero -->
     <div id="spot" class="max-w-7xl mx-auto px-6 pt-8">
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-y-4 mb-6">
             <div>
@@ -90,13 +84,10 @@
             </div>
         </div>
 
-        <!-- Spot Cards + Chart -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- USD & IDR Spot Cards -->
+            <!-- Spot Cards -->
             <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                
-                <!-- USD Spot -->
                 <div class="fresh-card bg-white border border-gray-100 rounded-3xl p-5 spot-card">
                     <div class="flex items-start justify-between">
                         <div>
@@ -117,7 +108,6 @@
                     </div>
                 </div>
 
-                <!-- IDR Spot - Fixed -->
                 <div class="fresh-card bg-white border border-gray-100 rounded-3xl p-5 spot-card">
                     <div class="flex items-start justify-between">
                         <div>
@@ -139,20 +129,24 @@
                 </div>
             </div>
 
-            <!-- Chart Card -->
+            <!-- Chart - Smaller Height -->
             <div class="lg:col-span-7 bg-white border border-gray-100 rounded-3xl p-6">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-3">
                     <div>
                         <div class="text-sm text-gray-500">Harga Emas Digital (per gram)</div>
                         <div class="text-3xl font-bold tracking-tighter">Rp2.455.416</div>
                     </div>
                     <div class="flex gap-x-2">
-                        <button onclick="updateChartPeriod(0)" class="px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1D</button>
-                        <button onclick="updateChartPeriod(1)" class="px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1W</button>
-                        <button onclick="updateChartPeriod(2)" class="px-4 py-1.5 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1M</button>
+                        <button onclick="updateChartPeriod(0)" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1D</button>
+                        <button onclick="updateChartPeriod(1)" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1W</button>
+                        <button onclick="updateChartPeriod(2)" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1M</button>
                     </div>
                 </div>
-                <div class="h-[200px]"><canvas id="goldChart"></canvas></div>
+
+                <!-- Smaller Chart Container -->
+                <div class="h-[155px]">
+                    <canvas id="goldChart"></canvas>
+                </div>
             </div>
 
         </div>
@@ -193,7 +187,7 @@
 
     <!-- Emas & Perak -->
     <div id="produk" class="max-w-7xl mx-auto px-6 pt-9">
-        <div class="flex justify-between items-end mb-5"><div><h2 class="section-title">Emas & Perak</h2><p class="text-sm text-gray-500">Metals+ • Investasi logam mulia</p></div><a href="#" class="text-sm text-amber-600 font-medium">Lihat Semua →</a></div>
+        <div class="flex justify-between items-end mb-5"><div><h2 class="section-title">Emas & Perak</h2><p class="text-sm text-gray-500">Metals+</p></div><a href="#" class="text-sm text-amber-600 font-medium">Lihat Semua →</a></div>
         <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden divide-y">
             <div class="px-6 py-4 flex justify-between items-center asset-row"><div class="flex items-center gap-x-4"><div class="w-9 h-9 bg-yellow-400 rounded-2xl flex items-center justify-center"><i class="fa-solid fa-coins text-yellow-800"></i></div><div><div class="font-semibold">Antam</div><div class="text-xs text-gray-500">Emas 99.99%</div></div></div><div class="text-right"><div class="font-semibold">Rp2.859.000</div><div class="text-emerald-600 text-xs">+1,55%</div></div></div>
             <div class="px-6 py-4 flex justify-between items-center asset-row"><div class="flex items-center gap-x-4"><div class="w-9 h-9 bg-yellow-300 rounded-2xl flex items-center justify-center"><span class="font-bold text-yellow-700">P</span></div><div><div class="font-semibold">PAXG <span class="text-[10px] bg-yellow-100 px-1.5 rounded">Crypto</span></div></div></div><div class="text-right"><div class="font-semibold">$2.680</div><div class="text-emerald-600 text-xs">+2,11%</div></div></div>
@@ -256,18 +250,70 @@
         function hideBuyModal(){ const m=document.getElementById('buy-modal'); m.classList.remove('flex'); m.classList.add('hidden'); }
         function submitBuyForm(e){ e.preventDefault(); hideBuyModal(); alert('Pembelian berhasil (Demo)'); }
 
-        let chart;
-        function initChart(){ chart = new Chart(document.getElementById('goldChart'), { type:'line', data:{labels:['08:00','10:00','12:00','14:00','16:00','18:00'], datasets:[{data:[2385000,2391000,2408000,2412000,2425000,2455416], borderColor:'#D4AF37', backgroundColor:'rgba(212,175,55,0.12)', borderWidth:3, fill:true, tension:0.4}]}, options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}} }); }
+        let chartInstance = null;
 
-        function updateChartPeriod(){ alert('Fitur akan dikembangkan'); }
+        function initChart() {
+            const canvas = document.getElementById('goldChart');
+            if (!canvas) return;
 
-        function initMobile(){ document.getElementById('mobile-menu-btn').onclick = () => { const m = document.createElement('div'); m.className='fixed inset-0 bg-black/70 z-[200] flex md:hidden'; m.innerHTML=`<div class="bg-white w-3/4 p-6"><div class="font-bold mb-6">Menu</div><div class="flex flex-col"><a href="#spot" class="py-2">Emas</a><a href="#harga" class="py-2">Harga</a><a href="#kurs" class="py-2">Kurs</a><a href="#produk" class="py-2">Produk</a></div></div>`; document.body.appendChild(m); m.onclick = e => {if(e.target===m) m.remove();}; }; }
+            // Destroy previous chart if exists
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
 
-        function initialize(){
-            renderTable('ubs-table-body', ubsPrices); renderTable('antam-table-body', antamPrices); renderTable('pegadaian-table-body', pegadaianPrices);
-            renderKursTables(); initChart(); initMobile();
-            if(document.querySelectorAll('.tab-btn').length > 0) document.querySelectorAll('.tab-btn')[0].classList.add('tab-active');
+            chartInstance = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: ['08:00','10:00','12:00','14:00','16:00','18:00','20:00'],
+                    datasets: [{
+                        label: 'Harga per Gram',
+                        data: [2385000, 2391000, 2408000, 2412000, 2425000, 2438000, 2455416],
+                        borderColor: '#D4AF37',
+                        backgroundColor: 'rgba(212,175,55,0.12)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+                        y: { grid: { color: '#f1f5f9' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => (v/1000000).toFixed(1) + 'jt' } }
+                    }
+                }
+            });
         }
+
+        function updateChartPeriod() {
+            alert('Fitur update periode grafik akan dikembangkan lebih lanjut.');
+        }
+
+        function initMobile() {
+            document.getElementById('mobile-menu-btn').onclick = () => {
+                const m = document.createElement('div');
+                m.className = 'fixed inset-0 bg-black/70 z-[200] flex md:hidden';
+                m.innerHTML = `<div class="bg-white w-3/4 p-6"><div class="font-bold mb-6">Menu</div><div class="flex flex-col"><a href="#spot" class="py-2">Emas</a><a href="#harga" class="py-2">Harga</a><a href="#kurs" class="py-2">Kurs</a><a href="#produk" class="py-2">Produk</a></div></div>`;
+                document.body.appendChild(m);
+                m.onclick = e => { if (e.target === m) m.remove(); };
+            };
+        }
+
+        function initialize() {
+            renderTable('ubs-table-body', ubsPrices);
+            renderTable('antam-table-body', antamPrices);
+            renderTable('pegadaian-table-body', pegadaianPrices);
+            renderKursTables();
+            initChart();
+            initMobile();
+            if (document.querySelectorAll('.tab-btn').length > 0) {
+                document.querySelectorAll('.tab-btn')[0].classList.add('tab-active');
+            }
+        }
+
         window.onload = initialize;
     </script>
 </body>
