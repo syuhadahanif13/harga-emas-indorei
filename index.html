@@ -18,6 +18,8 @@
         .nav-link:hover { color: #854D0E; }
         .gold-gradient { background: linear-gradient(135deg, #D4AF37, #B8972E); }
         .spot-header { background-color: #FEF3C7; }
+        .bank-logo { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; border-radius: 10px; }
+        .asset-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; border-radius: 8px; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -59,12 +61,12 @@
         </div>
     </nav>
 
-    <!-- Hero with Spot Cards like Reference -->
+    <!-- Hero -->
     <div id="spot" class="max-w-7xl mx-auto px-6 pt-7">
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-y-3 mb-5">
             <div>
                 <h1 class="section-title text-4xl tracking-tighter">Harga Emas Hari Ini</h1>
-                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:29 WIB</p>
+                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:30 WIB</p>
             </div>
             
             <div class="flex items-center gap-x-3">
@@ -79,10 +81,8 @@
             </div>
         </div>
 
-        <!-- Spot Cards - Format like original -->
+        <!-- Spot Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-2">
-            
-            <!-- USD Spot Card -->
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="spot-header px-5 py-2.5 flex items-center gap-x-2">
                     <span class="text-xl">🇺🇸</span>
@@ -103,7 +103,6 @@
                 </div>
             </div>
 
-            <!-- IDR Spot Card -->
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="spot-header px-5 py-2.5 flex items-center gap-x-2">
                     <span class="text-xl">🇮🇩</span>
@@ -128,7 +127,6 @@
             </div>
         </div>
 
-        <!-- Chart -->
         <div class="bg-white border border-gray-100 rounded-3xl p-5 mt-4">
             <div class="flex justify-between items-center mb-3">
                 <div class="font-semibold">Grafik Harga Emas (per gram)</div>
@@ -156,20 +154,45 @@
         </div>
     </div>
 
-    <!-- Kurs -->
+    <!-- Kurs with Proper Bank Logos -->
     <div id="kurs" class="max-w-7xl mx-auto px-6 pt-8">
         <div class="flex justify-between mb-4"><h2 class="section-title">Kurs Valuta Asing</h2><span id="kurs-updated" class="text-xs px-4 py-1.5 bg-white border rounded-full"></span></div>
+        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            
+            <!-- Bank Indonesia -->
             <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden fresh-card">
-                <div class="px-5 py-3.5 flex items-center gap-x-3 bg-[#F8F1E3]"><div class="w-8 h-8 bg-blue-700 rounded-xl flex items-center justify-center text-white text-xs font-bold">BI</div><div class="font-semibold">Bank Indonesia</div></div>
+                <div class="px-5 py-4 flex items-center gap-x-3 bg-[#F8F1E3]">
+                    <div class="bank-logo bg-blue-700 text-white text-sm">BI</div>
+                    <div>
+                        <div class="font-bold">Bank Indonesia</div>
+                        <div class="text-xs text-gray-500">Sumber Resmi BI</div>
+                    </div>
+                </div>
                 <table class="w-full text-sm"><thead class="bg-gray-50"><tr><th class="px-5 py-2.5 text-left">Kurs</th><th class="px-5 py-2.5 text-right">Beli</th><th class="px-5 py-2.5 text-right">Jual</th></tr></thead><tbody id="bi-kurs-body" class="divide-y"></tbody></table>
             </div>
+
+            <!-- Bank Mandiri -->
             <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden fresh-card">
-                <div class="px-5 py-3.5 flex items-center gap-x-3 bg-[#F8F1E3]"><div class="w-8 h-8 bg-red-600 rounded-xl flex items-center justify-center text-white text-sm font-bold">M</div><div class="font-semibold">Bank Mandiri</div></div>
+                <div class="px-5 py-4 flex items-center gap-x-3 bg-[#F8F1E3]">
+                    <div class="bank-logo bg-red-600 text-white text-xs">Mandiri</div>
+                    <div>
+                        <div class="font-bold">Bank Mandiri</div>
+                        <div class="text-xs text-gray-500">Sumber Mandiri</div>
+                    </div>
+                </div>
                 <table class="w-full text-sm"><thead class="bg-gray-50"><tr><th class="px-5 py-2.5 text-left">Kurs</th><th class="px-5 py-2.5 text-right">Beli</th><th class="px-5 py-2.5 text-right">Jual</th></tr></thead><tbody id="mandiri-kurs-body" class="divide-y"></tbody></table>
             </div>
+
+            <!-- BCA -->
             <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden fresh-card">
-                <div class="px-5 py-3.5 flex items-center gap-x-3 bg-[#F8F1E3]"><div class="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center"><span class="text-white text-[10px] font-bold">BCA</span></div><div class="font-semibold">Bank Central Asia</div></div>
+                <div class="px-5 py-4 flex items-center gap-x-3 bg-[#F8F1E3]">
+                    <div class="bank-logo bg-blue-600 text-white text-xs">BCA</div>
+                    <div>
+                        <div class="font-bold">Bank Central Asia</div>
+                        <div class="text-xs text-gray-500">Sumber BCA</div>
+                    </div>
+                </div>
                 <table class="w-full text-sm"><thead class="bg-gray-50"><tr><th class="px-5 py-2.5 text-left">Kurs</th><th class="px-5 py-2.5 text-right">Beli</th><th class="px-5 py-2.5 text-right">Jual</th></tr></thead><tbody id="bca-kurs-body" class="divide-y"></tbody></table>
             </div>
         </div>
@@ -179,17 +202,71 @@
     <div id="produk" class="max-w-7xl mx-auto px-6 pt-8">
         <div class="flex justify-between items-end mb-4"><div><h2 class="section-title">Emas & Perak</h2></div><a href="#" class="text-sm text-amber-600 font-medium">Lihat Semua →</a></div>
         <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden divide-y">
-            <div class="px-5 py-3.5 flex justify-between items-center"><div class="flex items-center gap-x-3"><div class="w-8 h-8 bg-yellow-400 rounded-xl flex items-center justify-center"><i class="fa-solid fa-coins text-yellow-800 text-sm"></i></div><div><span class="font-semibold">Antam</span> <span class="text-xs bg-yellow-100 px-1.5 rounded">Emas</span></div></div><div class="text-right font-semibold">Rp2.859.000 <span class="text-emerald-600 text-xs">+1,55%</span></div></div>
-            <div class="px-5 py-3.5 flex justify-between items-center"><div class="flex items-center gap-x-3"><div class="w-8 h-8 bg-yellow-300 rounded-xl flex items-center justify-center"><span class="font-bold text-yellow-700 text-sm">P</span></div><div><span class="font-semibold">PAXG</span> <span class="text-xs bg-yellow-100 px-1.5 rounded">Crypto</span></div></div><div class="text-right font-semibold">$2.680 <span class="text-emerald-600 text-xs">+2,11%</span></div></div>
-            <div class="px-5 py-3.5 flex justify-between items-center"><div class="flex items-center gap-x-3"><div class="w-8 h-8 bg-yellow-200 rounded-xl flex items-center justify-center"><span class="font-bold text-yellow-700 text-sm">X</span></div><div><span class="font-semibold">XAUT</span> <span class="text-xs bg-yellow-100 px-1.5 rounded">Crypto</span></div></div><div class="text-right font-semibold">$2.675 <span class="text-emerald-600 text-xs">+2,03%</span></div></div>
+            <div class="px-5 py-3.5 flex justify-between items-center asset-row"><div class="flex items-center gap-x-3"><div class="asset-icon bg-yellow-400 text-yellow-800"><i class="fa-solid fa-coins"></i></div><div><span class="font-semibold">Antam</span></div></div><div class="text-right font-semibold">Rp2.859.000 <span class="text-emerald-600 text-xs">+1,55%</span></div></div>
+            <div class="px-5 py-3.5 flex justify-between items-center asset-row"><div class="flex items-center gap-x-3"><div class="asset-icon bg-yellow-300 text-yellow-700"><span class="font-bold">P</span></div><div><span class="font-semibold">PAXG</span> <span class="text-xs bg-yellow-100 px-1.5 rounded">Crypto</span></div></div><div class="text-right font-semibold">$2.680 <span class="text-emerald-600 text-xs">+2,11%</span></div></div>
+            <div class="px-5 py-3.5 flex justify-between items-center asset-row"><div class="flex items-center gap-x-3"><div class="asset-icon bg-yellow-200 text-yellow-700"><span class="font-bold">X</span></div><div><span class="font-semibold">XAUT</span> <span class="text-xs bg-yellow-100 px-1.5 rounded">Crypto</span></div></div><div class="text-right font-semibold">$2.675 <span class="text-emerald-600 text-xs">+2,03%</span></div></div>
         </div>
     </div>
 
-    <!-- Saham & Kripto -->
+    <!-- Saham AS & Kripto with Icons -->
     <div class="max-w-7xl mx-auto px-6 pt-7">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="bg-white border border-gray-100 rounded-3xl p-5"><div class="flex justify-between mb-3"><div class="font-semibold">Saham AS</div><a href="#" class="text-xs text-emerald-600">Lihat Semua →</a></div><div class="space-y-2 text-sm"><div class="flex justify-between"><span>NVDA</span> <span class="text-emerald-600">+0,31%</span></div><div class="flex justify-between"><span>GOOGL</span> <span class="text-emerald-600">+1,56%</span></div><div class="flex justify-between"><span>AAPL</span> <span class="text-red-500">-1,37%</span></div></div></div>
-            <div class="bg-white border border-gray-100 rounded-3xl p-5"><div class="flex justify-between mb-3"><div class="font-semibold">Kripto</div><a href="#" class="text-xs text-emerald-600">Lihat Semua →</a></div><div class="space-y-2 text-sm"><div class="flex justify-between"><span>BTC</span> <span class="text-emerald-600">+1,37%</span></div><div class="flex justify-between"><span>ETH</span> <span class="text-emerald-600">+0,99%</span></div><div class="flex justify-between"><span>BNB</span> <span class="text-emerald-600">+1,00%</span></div></div></div>
+            
+            <!-- Saham AS -->
+            <div class="bg-white border border-gray-100 rounded-3xl p-5">
+                <div class="flex justify-between mb-4"><div class="font-semibold">Saham AS</div><a href="#" class="text-xs text-emerald-600">Lihat Semua →</a></div>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-x-3">
+                            <div class="asset-icon bg-green-600 text-white text-xs">NV</div>
+                            <span>NVDA <span class="text-xs text-gray-500">Nvidia</span></span>
+                        </div>
+                        <span class="text-emerald-600 font-medium">+0,31%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-x-3">
+                            <div class="asset-icon bg-blue-600 text-white text-xs">GO</div>
+                            <span>GOOGL <span class="text-xs text-gray-500">Alphabet</span></span>
+                        </div>
+                        <span class="text-emerald-600 font-medium">+1,56%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-x-3">
+                            <div class="asset-icon bg-gray-800 text-white text-xs">AP</div>
+                            <span>AAPL <span class="text-xs text-gray-500">Apple</span></span>
+                        </div>
+                        <span class="text-red-500 font-medium">-1,37%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kripto -->
+            <div class="bg-white border border-gray-100 rounded-3xl p-5">
+                <div class="flex justify-between mb-4"><div class="font-semibold">Kripto</div><a href="#" class="text-xs text-emerald-600">Lihat Semua →</a></div>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-x-3">
+                            <div class="asset-icon bg-orange-500 text-white text-xs">₿</div>
+                            <span>BTC <span class="text-xs text-gray-500">Bitcoin</span></span>
+                        </div>
+                        <span class="text-emerald-600 font-medium">+1,37%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-x-3">
+                            <div class="asset-icon bg-purple-600 text-white text-xs">Ξ</div>
+                            <span>ETH <span class="text-xs text-gray-500">Ethereum</span></span>
+                        </div>
+                        <span class="text-emerald-600 font-medium">+0,99%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-x-3">
+                            <div class="asset-icon bg-yellow-500 text-white text-xs">BNB</div>
+                            <span>BNB <span class="text-xs text-gray-500">BNB Chain</span></span>
+                        </div>
+                        <span class="text-emerald-600 font-medium">+1,00%</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
