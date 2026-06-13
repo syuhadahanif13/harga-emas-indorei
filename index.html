@@ -137,9 +137,9 @@
                         <div class="text-sm text-gray-500">per gram • Real-time</div>
                     </div>
                     <div class="flex gap-x-2">
-                        <button onclick="updateChart('1D')" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl bg-emerald-800 text-white">1D</button>
-                        <button onclick="updateChart('1W')" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1W</button>
-                        <button onclick="updateChart('1M')" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1M</button>
+                        <button onclick="updateChart('1W')" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl bg-emerald-800 text-white">1W</button>
+                        <button onclick="updateChart('1Y')" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">1Y</button>
+                        <button onclick="updateChart('2Y')" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">2Y</button>
                         <button onclick="updateChart('5Y')" class="px-3.5 py-1 text-xs font-medium border border-gray-200 hover:bg-gray-50 rounded-2xl">5Y</button>
                     </div>
                 </div>
@@ -561,12 +561,13 @@
 
             const ctx = canvas.getContext('2d');
 
-            const labels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
+            // Default chart = 1W
+            const labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
             const data = [];
             let basePrice = currentPrice || 2455416;
 
             for (let i = 0; i < 7; i++) {
-                const variation = (Math.random() - 0.5) * 15000;
+                const variation = (Math.random() - 0.5) * 12000;
                 data.push(Math.round(basePrice + variation));
             }
 
@@ -604,18 +605,21 @@
             let newData = [];
             const base = currentGoldPriceIDR || 2455416;
 
-            if (period === '1D') {
-                newLabels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
-                newData = [base - 12000, base - 8000, base - 3000, base + 2000, base + 7000, base + 11000, base];
-            } else if (period === '1W') {
+            if (period === '1W') {
                 newLabels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
-                newData = [base - 25000, base - 18000, base - 5000, base + 8000, base + 15000, base + 9000, base];
-            } else if (period === '1M') {
-                newLabels = ['1 Jun', '8 Jun', '15 Jun', '22 Jun', '29 Jun'];
-                newData = [base - 45000, base - 30000, base - 12000, base + 5000, base];
-            } else if (period === '5Y') {
-                newLabels = ['2022', '2023', '2024', '2025', '2026'];
-                newData = [1850000, 2050000, 2250000, 2380000, base];
+                newData = [base - 8000, base - 3000, base + 2000, base + 5000, base + 9000, base + 4000, base];
+            } 
+            else if (period === '1Y') {
+                newLabels = ['Jan', 'Mar', 'Mei', 'Jul', 'Sep', 'Nov', 'Jan'];
+                newData = [base - 85000, base - 60000, base - 25000, base + 15000, base + 45000, base + 30000, base];
+            } 
+            else if (period === '2Y') {
+                newLabels = ['2024 Q1', '2024 Q2', '2024 Q3', '2024 Q4', '2025 Q1', '2025 Q2', '2025 Q3'];
+                newData = [base - 180000, base - 120000, base - 50000, base + 20000, base + 80000, base + 60000, base];
+            } 
+            else if (period === '5Y') {
+                newLabels = ['2021', '2022', '2023', '2024', '2025', '2026'];
+                newData = [1650000, 1850000, 2050000, 2250000, 2380000, base];
             }
 
             chartInstance.data.labels = newLabels;
