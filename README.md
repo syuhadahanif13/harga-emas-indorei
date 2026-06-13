@@ -2,7 +2,7 @@
 
 **Versi static HTML** dari website harga-emas.org yang sudah dioptimalkan untuk deployment di **Vercel**.
 
-## ✨ Fitur
+## ✨ Fitur 
 
 - 100% Static (HTML + Tailwind CSS + Vanilla JS + Chart.js)
 - Tidak ada PHP lagi → cocok untuk Vercel, Netlify, GitHub Pages
