@@ -58,7 +58,7 @@
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-y-3 mb-5">
             <div>
                 <h1 class="section-title text-4xl tracking-tighter">Harga Emas Hari Ini</h1>
-                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:43 WIB</p>
+                <p class="text-xs text-gray-500 mt-1">Pada 13 Jun 2026, 14:47 WIB</p>
             </div>
             
             <div class="flex items-center gap-x-3">
@@ -208,7 +208,90 @@
         </div>
     </div>
 
-    <footer class="bg-white border-t"><div class="max-w-7xl mx-auto px-6 py-6 text-sm text-gray-500 flex flex-col md:flex-row justify-between"><div>© 2026 Harga-Emas Rei</div><div class="flex gap-x-5 mt-2 md:mt-0"><a href="#">Tentang</a><a href="#">FAQ</a><a href="https://pluang.com">Pluang</a></div></div></footer>
+    <!-- Footer seperti Pluang -->
+    <footer class="bg-[#1F2937] text-white pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-y-10">
+                
+                <!-- Menu -->
+                <div class="md:col-span-3">
+                    <h4 class="font-semibold mb-4">Menu</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#spot" class="hover:text-white">Emas 1 Gram</a></li>
+                        <li><a href="#kurs" class="hover:text-white">Kurs</a></li>
+                        <li><a href="#produk" class="hover:text-white">Emas & Perak</a></li>
+                        <li><a href="#pluang" class="hover:text-white">Investasi</a></li>
+                        <li><a href="#" class="hover:text-white">Grafik</a></li>
+                    </ul>
+                </div>
+
+                <!-- Others -->
+                <div class="md:col-span-3">
+                    <h4 class="font-semibold mb-4">Others</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#" class="hover:text-white">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Download App -->
+                <div class="md:col-span-6">
+                    <h4 class="font-semibold mb-4 text-lg">Download Aplikasi Pluang</h4>
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <!-- QR Code -->
+                        <div class="flex-shrink-0">
+                            <div class="bg-white p-2 rounded-xl w-[110px] h-[110px] flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-qrcode text-6xl text-gray-800"></i>
+                                    <p class="text-[10px] text-gray-500 mt-1">Scan untuk download</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- App Badges -->
+                        <div class="flex flex-col gap-3">
+                            <a href="https://play.google.com/store/apps/details?id=com.EmasDigi" target="_blank" class="block w-[160px]">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/512px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" class="w-full">
+                            </a>
+                            <a href="https://apps.apple.com/app/id1341588054" target="_blank" class="block w-[160px]">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/512px-Download_on_the_App_Store_Badge.svg.png" alt="App Store" class="w-full">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="mt-10 pt-8 border-t border-gray-700">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-y-4">
+                    <div>
+                        <h4 class="font-semibold mb-3">Ikuti kami di media sosial</h4>
+                        <div class="flex gap-x-5 text-xl">
+                            <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-tiktok"></i></a>
+                            <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-facebook"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="text-sm text-gray-400">
+                        © 2026 Harga-Emas Rei. All rights reserved.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="mt-8 text-xs text-gray-400 leading-relaxed">
+                Harga-Emas Rei adalah platform informasi perdagangan emas yang dikelola secara independen. 
+                Kami bertujuan memberikan akses yang lebih luas kepada masyarakat Indonesia untuk berbagi kelas aset melalui produk investasi mikro yang mudah, aman, dan terjangkau.
+            </div>
+        </div>
+    </footer>
 
     <!-- Buy Modal -->
     <div id="buy-modal" onclick="if(event.target.id==='buy-modal') hideBuyModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4">
@@ -223,12 +306,8 @@
 
         function createChart() {
             const canvas = document.getElementById('goldChart');
-            if (!canvas) {
-                console.error('Canvas not found');
-                return;
-            }
+            if (!canvas) return;
 
-            // Destroy previous chart if exists
             if (chartInstance) {
                 chartInstance.destroy();
                 chartInstance = null;
@@ -261,15 +340,13 @@
                     }
                 }
             });
-
-            console.log('%c[Chart] Chart created successfully', 'color: green');
         }
 
         function updateChart(period) {
             if (!chartInstance) return;
 
-            let newData = [];
             let newLabels = [];
+            let newData = [];
 
             if (period === '1D') {
                 newLabels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
@@ -291,10 +368,6 @@
         }
 
         function initialize() {
-            // Render other parts
-            // (simplified for chart focus)
-
-            // Create chart with delay
             setTimeout(() => {
                 createChart();
             }, 300);
