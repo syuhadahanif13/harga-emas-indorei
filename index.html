@@ -46,7 +46,7 @@
 
                 <div class="flex items-center gap-x-3">
                     <a href="#download" class="hidden md:inline-flex items-center px-5 py-2 text-sm font-semibold border border-gray-200 hover:bg-gray-50 rounded-2xl"><i class="fa-solid fa-download mr-2 text-xs"></i> Download</a>
-                    <a href="https://pluang.com" target="_blank" class="inline-flex px-6 py-2.5 gold-gradient text-white text-sm font-semibold rounded-2xl">Beli Emas</a>
+                    <a href="https://emasmurniasli.co.id" target="_blank" class="inline-flex px-6 py-2.5 gold-gradient text-white text-sm font-semibold rounded-2xl">Beli Emas</a>
                     <button id="mobile-menu-btn" class="md:hidden w-10 h-10"><i class="fa-solid fa-bars text-xl"></i></button>
                 </div>
             </div>
@@ -67,9 +67,9 @@
                     <div id="main-price" class="text-3xl font-extrabold text-emerald-600">Memuat...</div>
                     <div id="price-change" class="text-emerald-600 text-sm font-semibold">+Rp0 (0%)</div>
                 </div>
-                <button onclick="showBuyModal()" class="px-7 py-3 gold-gradient text-white font-semibold rounded-2xl flex items-center gap-x-2 text-sm">
+                <a href="https://emasmurniasli.co.id" target="_blank" class="px-7 py-3 gold-gradient text-white font-semibold rounded-2xl flex items-center gap-x-2 text-sm">
                     <i class="fa-solid fa-wallet"></i> <span>Beli Sekarang</span>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -170,7 +170,9 @@
                 <div class="p-5">
                     <div class="text-sm text-gray-500 mb-1">Harga Beli per Gram</div>
                     <div id="antam-price" class="text-3xl font-extrabold text-emerald-600">Rp2.861.000</div>
-                    <div class="text-xs text-gray-400 mt-4">Harga dapat berubah sewaktu-waktu</div>
+                    <div class="mt-4">
+                        <a href="https://emasmurniasli.co.id" target="_blank" class="inline-block w-full text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-2xl transition">Beli Antam</a>
+                    </div>
                 </div>
             </div>
 
@@ -188,7 +190,9 @@
                 <div class="p-5">
                     <div class="text-sm text-gray-500 mb-1">Harga Beli per Gram</div>
                     <div id="pegadaian-price" class="text-3xl font-extrabold text-emerald-600">Rp2.739.000</div>
-                    <div class="text-xs text-gray-400 mt-4">Harga dapat berubah sewaktu-waktu</div>
+                    <div class="mt-4">
+                        <a href="https://emasmurniasli.co.id" target="_blank" class="inline-block w-full text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-2xl transition">Beli Pegadaian</a>
+                    </div>
                 </div>
             </div>
 
@@ -214,7 +218,9 @@
                             <div id="ubs-beli" class="text-2xl font-extrabold text-emerald-600">Rp2.430.000</div>
                         </div>
                     </div>
-                    <div class="text-xs text-gray-400 mt-4">Harga dapat berubah sewaktu-waktu</div>
+                    <div class="mt-4">
+                        <a href="https://emasmurniasli.co.id" target="_blank" class="inline-block w-full text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-2xl transition">Beli UBS</a>
+                    </div>
                 </div>
             </div>
 
@@ -277,7 +283,10 @@
         <div class="bg-gradient-to-br from-yellow-900 to-amber-950 rounded-3xl p-7 text-white">
             <div class="grid md:grid-cols-2 gap-6 items-center">
                 <div><div class="text-yellow-400 text-xs font-bold tracking-widest">INVESTASI EMAS DIGITAL</div><h3 class="text-3xl font-bold tracking-tighter mt-1">Mulai dari Rp10.000</h3></div>
-                <div class="flex flex-wrap gap-3"><button onclick="showBuyModal()" class="px-6 py-3 bg-white text-gray-900 font-semibold rounded-2xl text-sm">Beli Emas Sekarang</button><a href="https://pluang.com" target="_blank" class="px-5 py-3 border border-white/30 rounded-2xl text-sm flex items-center gap-x-2">Download Pluang</a></div>
+                <div class="flex flex-wrap gap-3">
+                    <a href="https://emasmurniasli.co.id" target="_blank" class="px-6 py-3 bg-white text-gray-900 font-semibold rounded-2xl text-sm flex items-center gap-x-2">Beli Emas Sekarang</a>
+                    <a href="https://pluang.com" target="_blank" class="px-5 py-3 border border-white/30 rounded-2xl text-sm flex items-center gap-x-2">Download Pluang</a>
+                </div>
             </div>
         </div>
     </div>
@@ -352,21 +361,13 @@
         </div>
     </div>
 
-    <!-- Buy Modal -->
-    <div id="buy-modal" onclick="if(event.target.id==='buy-modal') hideBuyModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4">
-        <div onclick="event.stopImmediatePropagation()" class="bg-white w-full max-w-md rounded-3xl overflow-hidden">
-            <div class="p-6 bg-gradient-to-r from-yellow-600 to-amber-600 text-white"><div class="flex justify-between"><div><div class="font-semibold text-xl">Beli Emas Digital</div></div><button onclick="hideBuyModal()" class="text-3xl">&times;</button></div></div>
-            <div class="p-6"><form onsubmit="submitBuyForm(event)"><input type="number" id="buy-gram" value="1" class="w-full border rounded-2xl px-5 py-3 text-xl mb-4"><div id="modal-price" class="text-3xl font-bold text-emerald-600 mb-4">Rp2.380.000</div><button class="w-full py-4 gold-gradient text-white font-semibold rounded-2xl">Konfirmasi Pembelian</button></form></div>
-        </div>
-    </div>
-
     <script>
         // ==================== DATA HARGA EMAS FISIK (MUDAH DIUPDATE) ====================
         const fisikPrices = {
-            antam: 2861000,      // Harga Beli Antam per gram
-            pegadaian: 2739000,  // Harga Beli Pegadaian per gram
-            ubsJual: 2627000,    // Harga Jual UBS per gram
-            ubsBeli: 2430000     // Harga Beli UBS per gram
+            antam: 2861000,
+            pegadaian: 2739000,
+            ubsJual: 2627000,
+            ubsBeli: 2430000
         };
 
         function updateFisikPrices() {
@@ -484,7 +485,7 @@
         }
 
         async function initialize() {
-            updateFisikPrices();           // Update harga fisik
+            updateFisikPrices();
             await getUsdToIdrRate();
             await fetchGoldPrice();
 
