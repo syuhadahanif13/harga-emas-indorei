@@ -100,14 +100,12 @@
         </div>
     </nav>
 
-    <!-- Harga Emas Hari Ini + Chart Side by Side -->
-    <div id="spot" class="max-w-7xl mx-auto px-6 pt-8">
-        <div class="flex items-center justify-between mb-4">
-            <div>
-                <h1 class="font-display text-3xl md:text-4xl font-bold tracking-tighter">Harga Emas Hari Ini</h1>
-                <p class="text-sm text-gray-500 mt-1">Pada 13 Jun 2026, 12:40 WIB</p>
-            </div>
-        </div>
+    <!-- Harga Emas Hari Ini + Chart (Side by Side like original) -->
+    <div id="spot" class="max-w-7xl mx-auto px-6 pt-6">
+        <!-- Date line -->
+        <div class="text-xs text-gray-500 mb-1">Pada 13 Jun 2026, 12:42 WIB</div>
+
+        <h1 class="font-display text-3xl md:text-4xl font-bold tracking-tighter mb-6">Harga Emas Hari Ini</h1>
 
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
             
@@ -694,18 +692,6 @@
 
         // Initialize everything
         function initializeApp() {
-            // Set dynamic last updated time
-            const now = new Date();
-            const options = { 
-                day: '2-digit', 
-                month: 'short', 
-                year: 'numeric',
-                hour: '2-digit', 
-                minute: '2-digit',
-                timeZone: 'Asia/Jakarta'
-            };
-            // Note: last-updated element was removed in new layout, but we keep the function for compatibility
-
             // Render all tables
             renderTable('ubs-table-body', ubsPrices);
             renderTable('antam-table-body', antamPrices);
@@ -729,7 +715,7 @@
                 });
             });
 
-            console.log('%c[Harga-Emas] Layout updated - Chart now on the right side of Spot prices.', 'color:#854D0E');
+            console.log('%c[Harga-Emas] Top section cleaned up.', 'color:#854D0E');
         }
 
         window.onload = initializeApp;
