@@ -87,12 +87,12 @@
                     <div class="p-5">
                         <div class="flex justify-between mb-4">
                             <div>
-                                <div class="text-3xl font-bold">$4.191,86</div>
-                                <div class="text-emerald-600 text-sm font-medium mt-0.5">(+110,4) /oz</div>
+                                <div id="usd-ounce" class="text-3xl font-bold">$4.191,86</div>
+                                <div id="usd-gram" class="text-emerald-600 text-sm font-medium mt-0.5">(+110,4) /oz</div>
                             </div>
                             <div class="text-right">
-                                <div class="text-2xl font-semibold">$134,77</div>
-                                <div class="text-emerald-600 text-sm font-medium">(+3,55) /gr</div>
+                                <div id="usd-gram-price" class="text-2xl font-semibold">$134,77</div>
+                                <div id="usd-gram-change" class="text-emerald-600 text-sm font-medium">(+3,55) /gr</div>
                             </div>
                         </div>
                         <div class="text-[10px] text-gray-500">oz = Ounce &nbsp;|&nbsp; gr = Gram</div>
@@ -108,16 +108,19 @@
                     <div class="p-5">
                         <div class="grid grid-cols-2 gap-x-4 mb-1">
                             <div>
-                                <div class="text-xl font-bold">Rp17.945,22</div>
+                                <div id="idr-usd" class="text-xl font-bold">Rp17.945,22</div>
                                 <div class="text-emerald-600 text-sm font-medium">(+28,24) /usd</div>
                             </div>
                             <div class="text-right">
-                                <div class="text-xl font-bold">Rp75.223.850</div>
+                                <div id="idr-ounce" class="text-xl font-bold">Rp75.223.850</div>
                                 <div class="text-emerald-600 text-sm font-medium">(+1.747.807) /oz</div>
                             </div>
                         </div>
                         <div class="mt-1">
-                            <div class="text-lg font-semibold">Rp2.414.349 <span class="text-emerald-600 text-sm font-medium">(+56.193)/gr</span></div>
+                            <div class="text-lg font-semibold">
+                                <span id="idr-gram">Rp2.414.349</span> 
+                                <span id="idr-gram-change" class="text-emerald-600 text-sm font-medium">(+56.193)/gr</span>
+                            </div>
                         </div>
                         <div class="text-[10px] text-gray-500 mt-1">oz = Ounce &nbsp;|&nbsp; gr = Gram</div>
                     </div>
@@ -408,10 +411,22 @@
 
                     currentGoldPriceIDR = goldPerGramIDR;
 
+                    // Update Main Price
                     document.getElementById('main-price').innerText = 'Rp' + goldPerGramIDR.toLocaleString('id-ID');
                     
                     const now = new Date();
                     document.getElementById('last-update').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
+                    // Update IDR Spot Card to match main price
+                    document.getElementById('idr-gram').innerText = 'Rp' + goldPerGramIDR.toLocaleString('id-ID');
+                    document.getElementById('idr-gram-change').innerText = '(Real-time)';
+
+                    // Update USD values (approximate)
+                    const usdPerOunce = goldPerOunceUSD.toFixed(2);
+                    const usdPerGram = goldPerGramUSD.toFixed(2);
+
+                    document.getElementById('usd-ounce').innerText = '$' + usdPerOunce;
+                    document.getElementById('usd-gram-price').innerText = '$' + usdPerGram;
 
                     return goldPerGramIDR;
                 }
@@ -433,7 +448,6 @@
 
             const ctx = canvas.getContext('2d');
 
-            // Generate realistic chart data based on current price
             const labels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
             const data = [];
             let basePrice = currentPrice || 2455416;
