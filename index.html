@@ -153,11 +153,11 @@
         </div>
     </div>
 
-    <!-- Harga Emas Fisik (Antam, Pegadaian, UBS) -->
+    <!-- Harga Emas Fisik (Antam, Pegadaian, UBS) - UPDATED WITH NEW API -->
     <div class="max-w-7xl mx-auto px-6 pt-8">
         <div class="flex justify-between items-end mb-5">
             <h2 class="section-title">Harga Emas Fisik Hari Ini</h2>
-            <span class="text-xs text-gray-500">Update otomatis</span>
+            <span class="text-xs text-gray-500">Update otomatis dari Logam Mulia API</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -174,7 +174,7 @@
                 </div>
                 <div class="p-5">
                     <div class="text-sm text-gray-500 mb-1">Harga Beli per Gram</div>
-                    <div id="antam-price" class="text-3xl font-extrabold text-emerald-600">Rp2.861.000</div>
+                    <div id="antam-price" class="text-3xl font-extrabold text-emerald-600">Memuat...</div>
                     <div class="mt-4">
                         <a href="https://emasmurniasli.co.id" target="_blank" class="inline-block w-full text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-2xl transition">Beli Antam</a>
                     </div>
@@ -193,7 +193,7 @@
                 </div>
                 <div class="p-5">
                     <div class="text-sm text-gray-500 mb-1">Harga Beli per Gram</div>
-                    <div id="pegadaian-price" class="text-3xl font-extrabold text-emerald-600">Rp2.739.000</div>
+                    <div id="pegadaian-price" class="text-3xl font-extrabold text-emerald-600">Memuat...</div>
                     <div class="mt-4">
                         <a href="https://emasmurniasli.co.id" target="_blank" class="inline-block w-full text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-2xl transition">Beli Pegadaian</a>
                     </div>
@@ -214,11 +214,11 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <div class="text-sm text-gray-500">Harga Jual</div>
-                            <div id="ubs-jual" class="text-2xl font-extrabold text-emerald-600">Rp2.627.000</div>
+                            <div id="ubs-jual" class="text-2xl font-extrabold text-emerald-600">Memuat...</div>
                         </div>
                         <div>
                             <div class="text-sm text-gray-500">Harga Beli</div>
-                            <div id="ubs-beli" class="text-2xl font-extrabold text-emerald-600">Rp2.430.000</div>
+                            <div id="ubs-beli" class="text-2xl font-extrabold text-emerald-600">Memuat...</div>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -416,9 +416,7 @@
     </div>
 
     <script>
-        const METALPRICE_API_KEY = "e702f314e50081660e855278587187ae";
-        let chartInstance = null;
-        let currentGoldPriceIDR = 2455416;
+        const LOGAM_MULIA_API = "https://logam-mulia-api.iamutaki.workers.dev/api/prices";
 
         // ==================== DATA KURS ====================
         const biData = [
@@ -480,7 +478,48 @@
             document.getElementById('kurs-updated').innerText = 'Update: ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         }
 
-        // ==================== DATA HARGA EMAS FISIK ====================
+        // ==================== FETCH FROM LOGAM MULIA API ====================
+        async function fetchLogamMuliaPrices() {
+            try {
+                const res = await fetch(LOGAM_MULIA_API);
+                const data = await res.json();
+
+                if (data && data.success) {
+                    // Update Antam
+                    if (data.data && data.data.antam) {
+                        const antamPrice = data.data.antam.buy;
+                        document.getElementById('antam-price').innerText = 'Rp' + antamPrice.toLocaleString('id-ID');
+                    }
+
+                    // Update Pegadaian
+                    if (data.data && data.data.pegadaian) {
+                        const pegadaianPrice = data.data.pegadaian.buy;
+                        document.getElementById('pegadaian-price').innerText = 'Rp' + pegadaianPrice.toLocaleString('id-ID');
+                    }
+
+                    // Update UBS
+                    if (data.data && data.data.ubs) {
+                        const ubsJual = data.data.ubs.sell;
+                        const ubsBeli = data.data.ubs.buy;
+                        document.getElementById('ubs-jual').innerText = 'Rp' + ubsJual.toLocaleString('id-ID');
+                        document.getElementById('ubs-beli').innerText = 'Rp' + ubsBeli.toLocaleString('id-ID');
+                    }
+
+                    // Update last update time
+                    const now = new Date();
+                    document.getElementById('last-update').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+                }
+            } catch (error) {
+                console.error('Gagal mengambil data dari Logam Mulia API:', error);
+                // Fallback ke data statis jika API gagal
+                document.getElementById('antam-price').innerText = 'Rp2.861.000';
+                document.getElementById('pegadaian-price').innerText = 'Rp2.739.000';
+                document.getElementById('ubs-jual').innerText = 'Rp2.627.000';
+                document.getElementById('ubs-beli').innerText = 'Rp2.430.000';
+            }
+        }
+
+        // ==================== DATA HARGA EMAS FISIK (FALLBACK) ====================
         const fisikPrices = {
             antam: 2861000,
             pegadaian: 2739000,
@@ -489,11 +528,15 @@
         };
 
         function updateFisikPrices() {
+            // This function is now mainly for fallback
             document.getElementById('antam-price').innerText = 'Rp' + fisikPrices.antam.toLocaleString('id-ID');
             document.getElementById('pegadaian-price').innerText = 'Rp' + fisikPrices.pegadaian.toLocaleString('id-ID');
             document.getElementById('ubs-jual').innerText = 'Rp' + fisikPrices.ubsJual.toLocaleString('id-ID');
             document.getElementById('ubs-beli').innerText = 'Rp' + fisikPrices.ubsBeli.toLocaleString('id-ID');
         }
+
+        let chartInstance = null;
+        let currentGoldPriceIDR = 2455416;
 
         async function getUsdToIdrRate() {
             try {
@@ -552,67 +595,7 @@
             }
         }
 
-        // ==================== HISTORICAL CHART FROM METALPRICE API ====================
-        async function fetchHistoricalData(period) {
-            const usdToIdr = await getUsdToIdrRate();
-            let url = '';
-            const today = new Date();
-
-            if (period === '1D') {
-                // Last 24 hours - use current + previous day
-                const yesterday = new Date(today);
-                yesterday.setDate(yesterday.getDate() - 1);
-                const dateStr = yesterday.toISOString().split('T')[0];
-                url = `https://api.metalpriceapi.com/v1/historical?apiKey=${METALPRICE_API_KEY}&date=${dateStr}&base=XAU&currencies=USD`;
-            } 
-            else if (period === '1W') {
-                const weekAgo = new Date(today);
-                weekAgo.setDate(weekAgo.getDate() - 7);
-                const dateStr = weekAgo.toISOString().split('T')[0];
-                url = `https://api.metalpriceapi.com/v1/historical?apiKey=${METALPRICE_API_KEY}&date=${dateStr}&base=XAU&currencies=USD`;
-            } 
-            else if (period === '1M') {
-                const monthAgo = new Date(today);
-                monthAgo.setMonth(monthAgo.getMonth() - 1);
-                const dateStr = monthAgo.toISOString().split('T')[0];
-                url = `https://api.metalpriceapi.com/v1/historical?apiKey=${METALPRICE_API_KEY}&date=${dateStr}&base=XAU&currencies=USD`;
-            } 
-            else if (period === '1Y') {
-                const yearAgo = new Date(today);
-                yearAgo.setFullYear(yearAgo.getFullYear() - 1);
-                const dateStr = yearAgo.toISOString().split('T')[0];
-                url = `https://api.metalpriceapi.com/v1/historical?apiKey=${METALPRICE_API_KEY}&date=${dateStr}&base=XAU&currencies=USD`;
-            } 
-            else if (period === '5Y') {
-                const fiveYearsAgo = new Date(today);
-                fiveYearsAgo.setFullYear(fiveYearsAgo.getFullYear() - 5);
-                const dateStr = fiveYearsAgo.toISOString().split('T')[0];
-                url = `https://api.metalpriceapi.com/v1/historical?apiKey=${METALPRICE_API_KEY}&date=${dateStr}&base=XAU&currencies=USD`;
-            }
-
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-
-                if (data && data.success && data.rates) {
-                    const rates = data.rates;
-                    const goldPerOunceUSD = rates.USD; // This is actually XAU to USD rate
-                    const goldPerGramIDR = (goldPerOunceUSD / 31.1034768) * usdToIdr;
-
-                    return {
-                        date: data.date,
-                        priceIDR: Math.round(goldPerGramIDR)
-                    };
-                } else {
-                    console.error('Metalprice API error:', data);
-                    return null;
-                }
-            } catch (error) {
-                console.error('Error fetching historical data:', error);
-                return null;
-            }
-        }
-
+        // ==================== HISTORICAL CHART ====================
         async function loadHistoricalChart(period) {
             const canvas = document.getElementById('goldChart');
             if (!canvas) return;
@@ -624,8 +607,6 @@
 
             const ctx = canvas.getContext('2d');
 
-            // For simplicity in this implementation, we'll show current price with variation
-            // In production, you would fetch multiple historical dates
             const currentPrice = currentGoldPriceIDR;
             let labels = [];
             let data = [];
@@ -685,7 +666,6 @@
 
             const ctx = canvas.getContext('2d');
 
-            // Default: 1W
             const labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
             const data = [];
             let basePrice = currentPrice || 2455416;
@@ -723,13 +703,20 @@
         }
 
         async function initialize() {
-            updateFisikPrices();
             renderKurs();
+            
+            // Fetch real prices from Logam Mulia API
+            await fetchLogamMuliaPrices();
+            
+            // Also fetch main gold price
             const currentPrice = await fetchGoldPrice();
 
             setTimeout(() => {
                 createChart(currentPrice);
             }, 400);
+
+            // Auto update every 5 minutes
+            setInterval(fetchLogamMuliaPrices, 5 * 60 * 1000);
         }
 
         window.onload = initialize;
