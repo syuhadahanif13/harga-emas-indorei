@@ -416,7 +416,7 @@
     </div>
 
     <script>
-        // ==================== LOGAM MULIA API - SPECIFIC ENDPOINT ====================
+        // ==================== LOGAM MULIA API ====================
         const LOGAM_MULIA_API = "https://logam-mulia-api.iamutaki.workers.dev/api/prices/hargaemas-org";
 
         // ==================== DATA KURS ====================
@@ -479,55 +479,45 @@
             document.getElementById('kurs-updated').innerText = 'Update: ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         }
 
-        // ==================== FETCH FROM LOGAM MULIA API (hargaemas-org) ====================
-        async function fetchLogamMuliaPrices() {
+        // ==================== FETCH ALL PRICES FROM LOGAM MULIA API ====================
+        async function fetchAllPricesFromLogamMulia() {
             try {
                 const res = await fetch(LOGAM_MULIA_API);
                 const data = await res.json();
 
-                console.log('Data dari hargaemas-org:', data); // Untuk debugging
-
                 if (data && data.success && data.data) {
                     const prices = data.data;
 
-                    // Update Antam
+                    // === UPDATE MAIN PRICE (Harga Emas Hari Ini) ===
+                    if (prices.harga_emas_hari_ini || prices.antam) {
+                        // Prioritaskan harga_emas_hari_ini jika ada, jika tidak pakai Antam
+                        const mainPrice = prices.harga_emas_hari_ini ? prices.harga_emas_hari_ini.buy : prices.antam.buy;
+                        document.getElementById('main-price').innerText = 'Rp' + mainPrice.toLocaleString('id-ID');
+                    }
+
+                    // === UPDATE ANTIM ===
                     if (prices.antam && prices.antam.buy) {
                         document.getElementById('antam-price').innerText = 'Rp' + prices.antam.buy.toLocaleString('id-ID');
                     }
 
-                    // Update Pegadaian
+                    // === UPDATE PEGADAIAN ===
                     if (prices.pegadaian && prices.pegadaian.buy) {
                         document.getElementById('pegadaian-price').innerText = 'Rp' + prices.pegadaian.buy.toLocaleString('id-ID');
                     }
 
-                    // Update UBS
+                    // === UPDATE UBS ===
                     if (prices.ubs) {
-                        if (prices.ubs.sell) {
-                            document.getElementById('ubs-jual').innerText = 'Rp' + prices.ubs.sell.toLocaleString('id-ID');
-                        }
-                        if (prices.ubs.buy) {
-                            document.getElementById('ubs-beli').innerText = 'Rp' + prices.ubs.buy.toLocaleString('id-ID');
-                        }
+                        if (prices.ubs.sell) document.getElementById('ubs-jual').innerText = 'Rp' + prices.ubs.sell.toLocaleString('id-ID');
+                        if (prices.ubs.buy) document.getElementById('ubs-beli').innerText = 'Rp' + prices.ubs.buy.toLocaleString('id-ID');
                     }
 
-                    // Update last update time
+                    // Update timestamp
                     const now = new Date();
                     document.getElementById('last-update').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
-                } else {
-                    console.warn('Format data tidak sesuai:', data);
-                    useFallbackPrices();
                 }
             } catch (error) {
                 console.error('Gagal mengambil data dari Logam Mulia API:', error);
-                useFallbackPrices();
             }
-        }
-
-        function useFallbackPrices() {
-            document.getElementById('antam-price').innerText = 'Rp2.861.000';
-            document.getElementById('pegadaian-price').innerText = 'Rp2.739.000';
-            document.getElementById('ubs-jual').innerText = 'Rp2.627.000';
-            document.getElementById('ubs-beli').innerText = 'Rp2.430.000';
         }
 
         let chartInstance = null;
@@ -546,51 +536,7 @@
             return 16200;
         }
 
-        async function fetchGoldPrice() {
-            try {
-                const response = await fetch('https://www.goldapi.io/api/XAU/USD', {
-                    headers: {
-                        'x-access-token': 'goldapi-gjtsm9p9njmp-io',
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) throw new Error('Gagal mengambil data');
-
-                const data = await response.json();
-
-                if (data && data.price) {
-                    const goldPerOunceUSD = data.price;
-                    const usdToIdr = await getUsdToIdrRate();
-                    const goldPerGramUSD = goldPerOunceUSD / 31.1034768;
-                    const goldPerGramIDR = Math.round(goldPerGramUSD * usdToIdr);
-
-                    currentGoldPriceIDR = goldPerGramIDR;
-
-                    document.getElementById('main-price').innerText = 'Rp' + goldPerGramIDR.toLocaleString('id-ID');
-                    
-                    const now = new Date();
-                    document.getElementById('last-update').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
-
-                    document.getElementById('idr-gram').innerText = 'Rp' + goldPerGramIDR.toLocaleString('id-ID');
-                    document.getElementById('idr-gram-change').innerText = '(Real-time)';
-
-                    const usdPerOunce = goldPerOunceUSD.toFixed(2);
-                    const usdPerGram = goldPerGramUSD.toFixed(2);
-
-                    document.getElementById('usd-ounce').innerText = '$' + usdPerOunce;
-                    document.getElementById('usd-gram-price').innerText = '$' + usdPerGram;
-
-                    return goldPerGramIDR;
-                }
-            } catch (error) {
-                console.error('Error fetching gold price:', error);
-                document.getElementById('main-price').innerText = 'Rp2.455.416';
-                document.getElementById('last-update').innerText = 'Offline';
-            }
-        }
-
-        // ==================== HISTORICAL CHART ====================
+        // ==================== HISTORICAL CHART (masih simulasi) ====================
         async function loadHistoricalChart(period) {
             const canvas = document.getElementById('goldChart');
             if (!canvas) return;
@@ -601,7 +547,6 @@
             }
 
             const ctx = canvas.getContext('2d');
-
             const currentPrice = currentGoldPriceIDR;
             let labels = [];
             let data = [];
@@ -660,7 +605,6 @@
             }
 
             const ctx = canvas.getContext('2d');
-
             const labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
             const data = [];
             let basePrice = currentPrice || 2455416;
@@ -700,18 +644,15 @@
         async function initialize() {
             renderKurs();
             
-            // Fetch real prices from specific endpoint hargaemas-org
-            await fetchLogamMuliaPrices();
-            
-            // Also fetch main gold price
-            const currentPrice = await fetchGoldPrice();
+            // Ambil semua harga dari satu endpoint Logam Mulia
+            await fetchAllPricesFromLogamMulia();
 
             setTimeout(() => {
-                createChart(currentPrice);
+                createChart(currentGoldPriceIDR);
             }, 400);
 
-            // Auto update every 5 minutes
-            setInterval(fetchLogamMuliaPrices, 5 * 60 * 1000);
+            // Auto update setiap 5 menit
+            setInterval(fetchAllPricesFromLogamMulia, 5 * 60 * 1000);
         }
 
         window.onload = initialize;
