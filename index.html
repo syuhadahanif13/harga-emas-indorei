@@ -153,7 +153,7 @@
         </div>
     </div>
 
-    <!-- Harga Emas Fisik (Antam, Pegadaian, UBS) - UPDATED WITH NEW API -->
+    <!-- Harga Emas Fisik (Antam, Pegadaian, UBS) -->
     <div class="max-w-7xl mx-auto px-6 pt-8">
         <div class="flex justify-between items-end mb-5">
             <h2 class="section-title">Harga Emas Fisik Hari Ini</h2>
@@ -416,7 +416,8 @@
     </div>
 
     <script>
-        const LOGAM_MULIA_API = "https://logam-mulia-api.iamutaki.workers.dev/api/prices";
+        // ==================== LOGAM MULIA API - SPECIFIC ENDPOINT ====================
+        const LOGAM_MULIA_API = "https://logam-mulia-api.iamutaki.workers.dev/api/prices/hargaemas-org";
 
         // ==================== DATA KURS ====================
         const biData = [
@@ -478,61 +479,55 @@
             document.getElementById('kurs-updated').innerText = 'Update: ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         }
 
-        // ==================== FETCH FROM LOGAM MULIA API ====================
+        // ==================== FETCH FROM LOGAM MULIA API (hargaemas-org) ====================
         async function fetchLogamMuliaPrices() {
             try {
                 const res = await fetch(LOGAM_MULIA_API);
                 const data = await res.json();
 
-                if (data && data.success) {
+                console.log('Data dari hargaemas-org:', data); // Untuk debugging
+
+                if (data && data.success && data.data) {
+                    const prices = data.data;
+
                     // Update Antam
-                    if (data.data && data.data.antam) {
-                        const antamPrice = data.data.antam.buy;
-                        document.getElementById('antam-price').innerText = 'Rp' + antamPrice.toLocaleString('id-ID');
+                    if (prices.antam && prices.antam.buy) {
+                        document.getElementById('antam-price').innerText = 'Rp' + prices.antam.buy.toLocaleString('id-ID');
                     }
 
                     // Update Pegadaian
-                    if (data.data && data.data.pegadaian) {
-                        const pegadaianPrice = data.data.pegadaian.buy;
-                        document.getElementById('pegadaian-price').innerText = 'Rp' + pegadaianPrice.toLocaleString('id-ID');
+                    if (prices.pegadaian && prices.pegadaian.buy) {
+                        document.getElementById('pegadaian-price').innerText = 'Rp' + prices.pegadaian.buy.toLocaleString('id-ID');
                     }
 
                     // Update UBS
-                    if (data.data && data.data.ubs) {
-                        const ubsJual = data.data.ubs.sell;
-                        const ubsBeli = data.data.ubs.buy;
-                        document.getElementById('ubs-jual').innerText = 'Rp' + ubsJual.toLocaleString('id-ID');
-                        document.getElementById('ubs-beli').innerText = 'Rp' + ubsBeli.toLocaleString('id-ID');
+                    if (prices.ubs) {
+                        if (prices.ubs.sell) {
+                            document.getElementById('ubs-jual').innerText = 'Rp' + prices.ubs.sell.toLocaleString('id-ID');
+                        }
+                        if (prices.ubs.buy) {
+                            document.getElementById('ubs-beli').innerText = 'Rp' + prices.ubs.buy.toLocaleString('id-ID');
+                        }
                     }
 
                     // Update last update time
                     const now = new Date();
                     document.getElementById('last-update').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+                } else {
+                    console.warn('Format data tidak sesuai:', data);
+                    useFallbackPrices();
                 }
             } catch (error) {
                 console.error('Gagal mengambil data dari Logam Mulia API:', error);
-                // Fallback ke data statis jika API gagal
-                document.getElementById('antam-price').innerText = 'Rp2.861.000';
-                document.getElementById('pegadaian-price').innerText = 'Rp2.739.000';
-                document.getElementById('ubs-jual').innerText = 'Rp2.627.000';
-                document.getElementById('ubs-beli').innerText = 'Rp2.430.000';
+                useFallbackPrices();
             }
         }
 
-        // ==================== DATA HARGA EMAS FISIK (FALLBACK) ====================
-        const fisikPrices = {
-            antam: 2861000,
-            pegadaian: 2739000,
-            ubsJual: 2627000,
-            ubsBeli: 2430000
-        };
-
-        function updateFisikPrices() {
-            // This function is now mainly for fallback
-            document.getElementById('antam-price').innerText = 'Rp' + fisikPrices.antam.toLocaleString('id-ID');
-            document.getElementById('pegadaian-price').innerText = 'Rp' + fisikPrices.pegadaian.toLocaleString('id-ID');
-            document.getElementById('ubs-jual').innerText = 'Rp' + fisikPrices.ubsJual.toLocaleString('id-ID');
-            document.getElementById('ubs-beli').innerText = 'Rp' + fisikPrices.ubsBeli.toLocaleString('id-ID');
+        function useFallbackPrices() {
+            document.getElementById('antam-price').innerText = 'Rp2.861.000';
+            document.getElementById('pegadaian-price').innerText = 'Rp2.739.000';
+            document.getElementById('ubs-jual').innerText = 'Rp2.627.000';
+            document.getElementById('ubs-beli').innerText = 'Rp2.430.000';
         }
 
         let chartInstance = null;
@@ -705,7 +700,7 @@
         async function initialize() {
             renderKurs();
             
-            // Fetch real prices from Logam Mulia API
+            // Fetch real prices from specific endpoint hargaemas-org
             await fetchLogamMuliaPrices();
             
             // Also fetch main gold price
